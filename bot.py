@@ -88,3 +88,4 @@ def callback_inline(call):
  
 # RUN
 bot.polling(none_stop=True)
+$ heroku create myapp --buildpack heroku/python
