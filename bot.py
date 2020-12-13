@@ -8,7 +8,7 @@ bot = telebot.TeleBot(config.TOKEN)
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
-    sti = open('static/welcome.tgs', 'rb')
+    sti = open('ascomirbot/static/welcome.tgs', 'rb')
     bot.send_sticker(message.chat.id, sti)
 
     # keyboard
@@ -60,7 +60,7 @@ def lalala(message):
 
         elif message.text == 'Чего хотят мои создатели👨🏻‍💻':
             bot.send_message(message.chat.id, 'Мои создатели хотят что бы вы поставили им хорошую оценку')
-            sti = open('static/Anime.tgs', 'rb')
+            sti = open('ascomirbot/static/Anime.tgs', 'rb')
             bot.send_sticker(message.chat.id, sti)
 
         else:
