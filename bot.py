@@ -1,6 +1,5 @@
 import telebot
 import config
-import random
 
 from telebot import types
 
@@ -8,7 +7,7 @@ bot = telebot.TeleBot(config.TOKEN)
 
 @bot.message_handler(commands=['start'])
 def welcome(message):
-    sti = open('ascomirbot/static/welcome.tgs', 'rb')
+    sti = open('static/welcome.tgs', 'rb')
     bot.send_sticker(message.chat.id, sti)
 
     # keyboard
@@ -16,8 +15,10 @@ def welcome(message):
     item1 = types.KeyboardButton("😊Как дела?")
     item2 = types.KeyboardButton("🤗Поиск аниме")
     item3 = types.KeyboardButton("Чего хотят мои создатели👨🏻‍💻")
-
-    markup.add(item1, item2, item3)
+    item4 = types.KeyboardButton("Связь с создателями")
+    markup.add(item1, item2,)
+    markup.add(item3,)
+    markup.add(item4)
 
     bot.send_message(message.chat.id, "Добро пожаловать,{0.first_name}!\nЯ - <b>{1.first_name}</b>, бот созданный чтобы быть вашей слугой.".format(message.from_user, bot.get_me()), parse_mode='html', reply_markup=markup)
 
@@ -58,11 +59,26 @@ def lalala(message):
             markup.add(btn_my_site)
             bot.send_message(message.chat.id, "Выберите аниме хозяин", reply_markup = markup)
 
+        
         elif message.text == 'Чего хотят мои создатели👨🏻‍💻':
-            bot.send_message(message.chat.id, 'Мои создатели хотят что бы вы поставили им хорошую оценку')
-            sti = open('ascomirbot/static/Anime.tgs', 'rb')
-            bot.send_sticker(message.chat.id, sti)
+            sti = open('static/Anime.tgs', 'rb')
+            bot.send_sticker(message.chat.id, sti) 
+            markup = types.InlineKeyboardMarkup(row_width=3)
+            item1 = types.InlineKeyboardButton("100", callback_data='good1')
+            item2 = types.InlineKeyboardButton("50", callback_data='not bad')
+            item3 = types.InlineKeyboardButton("0", callback_data='bad2')
 
+            markup.add(item1, item2, item3,)
+
+            bot.send_message(message.chat.id, "Мои создатели хотят что бы вы поставили им хорошую оценку", reply_markup = markup)
+
+        elif message.text == 'Связь с создателями':
+            markup = types.InlineKeyboardMarkup(row_width=2)
+            item1 = btn_my_site = types.InlineKeyboardButton(text='Askhat', url='https://t.me/soupmas')
+            markup.add(btn_my_site)
+            item2 = btn_my_site = types.InlineKeyboardButton(text='Miras', url='https://t.me/miras2210')
+            markup.add(btn_my_site)
+            bot.send_message(message.chat.id, "Мои создатели они вложили мне душу❤", reply_markup = markup)
         else:
             bot.send_message(message.chat.id,'Я не знаю что ответить хозяин 😢')
     
@@ -74,18 +90,21 @@ def callback_inline(call):
                 bot.send_message(call.message.chat.id, 'Вот и отличненько 😊')
             elif call.data == 'bad':
                 bot.send_message(call.message.chat.id, 'Бывает 😢')
+            elif call.data == 'good1':
+                bot.send_message(call.message.chat.id, 'Wow спасибо senpai')
+                sti = open('static/100.tgs', 'rb')
+                bot.send_sticker(call.message.chat.id, sti)
+            elif call.data == 'not bad':
+                bot.send_message(call.message.chat.id, 'Спасибо за щедрую оценку')
+                sti = open('static/Ani.tgs', 'rb')
+                bot.send_sticker(call.message.chat.id, sti)
+            elif call.data == 'bad2':
+                bot.send_message(call.message.chat.id, 'Мы постараемся улучшить нашего бота!')
+                sti = open('static/Ar.tgs', 'rb')
+                bot.send_sticker(call.message.chat.id, sti)
 
-              # remove inline buttons
-            bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="😊 Как дела?",
-                reply_markup=None)
- 
-            # show alert
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False,
-                text="Господин где вы!😰")
- 
     except Exception as e:
         print(repr(e))
  
 # RUN
 bot.polling(none_stop=True)
-
