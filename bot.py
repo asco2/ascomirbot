@@ -78,7 +78,7 @@ def lalala(message):
             markup.add(btn_my_site)
             item2 = btn_my_site = types.InlineKeyboardButton(text='Miras', url='https://t.me/miras2210')
             markup.add(btn_my_site)
-            bot.send_message(message.chat.id, "Мои создатели они вложили мне душу❤", reply_markup = markup)
+            bot.send_message(message.chat.id, "Мои создатели вложили мне душу❤", reply_markup = markup)
         else:
             bot.send_message(message.chat.id,'Я не знаю что ответить хозяин 😢')
     
